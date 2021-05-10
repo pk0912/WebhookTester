@@ -1,5 +1,6 @@
 import random
 import json
+
 from django.http import HttpResponse, Http404, HttpResponseNotFound
 from django.views.generic import TemplateView
 from rest_framework import status
@@ -117,6 +118,8 @@ class EndpointHitApiView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             endpoint = get_object_or_404(Endpoint, name=kwargs.get("endpoint", ""))
+            if endpoint.is_expired():
+                return Response({"message": "No such endpoint exist!!!"}, status=status.HTTP_404_NOT_FOUND)
             endpoint.clicked()
             endpoint_hit = EndpointHits()
             endpoint_hit.name = endpoint
@@ -131,8 +134,11 @@ class EndpointHitApiView(APIView):
 
     def get(self, request, *args, **kwargs):
         endpoint_obj = get_object_or_404(Endpoint, name=kwargs.get("endpoint", ""))
-        endpoint = EndpointSerializer(endpoint_obj).data
-        kwargs["endpoint"] = endpoint
-        endpoint_hit = EndpointHitSerializer(EndpointHits.objects.filter(name=endpoint_obj), many=True).data
-        kwargs["hits"] = endpoint_hit
-        return Response(kwargs, status=status.HTTP_200_OK)
+        try:
+            endpoint = EndpointSerializer(endpoint_obj).data
+            kwargs["endpoint"] = endpoint
+            endpoint_hit = EndpointHitSerializer(EndpointHits.objects.filter(name=endpoint_obj), many=True).data
+            kwargs["hits"] = endpoint_hit
+            return Response(kwargs, status=status.HTTP_200_OK)
+        except TypeError:
+            return Response({"message": "No such endpoint exists."}, status=status.HTTP_404_NOT_FOUND)

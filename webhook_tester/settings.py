@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'endpoints.apps.EndpointsConfig',
     'rest_framework',
-    'django_extensions'
+    'django_extensions',
+    'django_celery_results',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -135,3 +137,20 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_ENDPOINT_INSERTION_COUNT = 100000
+
+# CELERY STUFF
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_TIMEZONE = 'UTC'
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TASK_SERIALIZER = "json"
+CELERY_BEAT_SCHEDULE = {
+    # Executes every hour
+    'delete_expired_endpoints_every_hour': {
+         'task': 'endpoints.tasks.delete_expired_endpoints',
+         'schedule': 10.0,
+        },
+}
