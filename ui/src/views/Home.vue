@@ -4,7 +4,7 @@
     <h2> Create new HTTP endpoints to inspect the data in user friendly way!</h2>
 
     <div>
-      <button @click="createNewEndpoint">+ Create New</button>
+      <b-button pill variant="danger" @click="createNewEndpoint">+ Create New</b-button>
     </div>
 
     <div>
