@@ -124,7 +124,7 @@ class EndpointHitApiView(APIView):
             endpoint_hit = EndpointHits()
             endpoint_hit.name = endpoint
             endpoint_hit.raw_body = request.data
-            endpoint_hit.query_params = [request.query_params]
+            endpoint_hit.query_params = [request.query_params] if len(request.query_params) > 0 else None
             endpoint_hit.headers = ["Accept: " + request.META.get("HTTP_ACCEPT", ""),
                                     "Cache-Control: " + request.META.get("HTTP_CACHE_CONTROL", "")]
             endpoint_hit.save()
@@ -137,6 +137,7 @@ class EndpointHitApiView(APIView):
         try:
             endpoint = EndpointSerializer(endpoint_obj).data
             kwargs["endpoint"] = endpoint
+            kwargs["endpoint"]["name"] = request.build_absolute_uri()
             endpoint_hit = EndpointHitSerializer(EndpointHits.objects.filter(name=endpoint_obj), many=True).data
             kwargs["hits"] = endpoint_hit
             return Response(kwargs, status=status.HTTP_200_OK)

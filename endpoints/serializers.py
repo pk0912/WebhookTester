@@ -27,5 +27,8 @@ class EndpointHitSerializer(serializers.ModelSerializer):
         else:
             hit_time = hit_time // 60
             hit_time = str(hit_time) + " minutes ago"
-        return {"query_param": instance.query_params, "raw_body": instance.raw_body,
-                "headers": instance.headers, "last_hit": hit_time}
+        query_param = instance.query_params if instance.query_params is not None else "Nil"
+        raw_body = instance.raw_body if len(instance.raw_body) > 0 else "Nil"
+        headers = instance.headers if len(instance.headers) > 0 else "Nil"
+        return {"query_param": query_param, "raw_body": raw_body,
+                "headers": headers, "last_hit": hit_time}

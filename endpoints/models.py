@@ -29,7 +29,7 @@ class Endpoint(models.Model):
 
 class EndpointHits(models.Model):
     name = models.ForeignKey(to=Endpoint, on_delete=models.CASCADE)
-    query_params = models.JSONField(default=list)
+    query_params = models.JSONField(default=None, null=True)
     raw_body = models.JSONField(default=dict)
     headers = models.JSONField(default=list)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,7 +1,11 @@
 <template>
   <div>
     <div>
-      <span>{{ endpointHits.endpoint.name }}     </span><span>     Expires in {{ endpointHits.endpoint.expires_in }}</span><span><button>Copy</button></span>
+      <span>{{ endpointHits.endpoint.name }}     </span>
+      <span>     Expires in {{ endpointHits.endpoint.expires_in }}</span>
+      <span>
+        <button v-clipboard:copy="endpointHits.endpoint.name" v-clipboard:success="onCopy">Copy</button>
+      </span>
     </div>
     <div v-for="hit in endpointHits.hits">
       <div>
@@ -23,6 +27,12 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
+import VueClipboard from 'vue-clipboard2'
+
+Vue.use(VueClipboard)
+
+
 import Endpoints from '../apis/endpoints/endpoints-api'
 export default {
   name: '',
@@ -36,6 +46,11 @@ export default {
     Endpoints.getEndpointWithHits(this.$route.params.Endpoint).then(response => {
       this.endpointHits = response.data
     })
+  },
+  methods: {
+    onCopy(e) {
+      alert('You just copied the following text to the clipboard: ' + e.text)
+    }
   }
 }
 </script>
