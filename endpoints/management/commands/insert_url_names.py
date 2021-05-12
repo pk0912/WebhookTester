@@ -10,9 +10,20 @@ class Command(BaseCommand):
     help = "Insert unique endpoint names into db"
 
     def add_arguments(self, parser: CommandParser) -> None:
-        parser.add_argument("--count", type=int, help="Number of endpoint names to be generated")
+        """
+        :param parser:
+        :return:
+        """
+        parser.add_argument(
+            "--count", type=int, help="Number of endpoint names to be generated"
+        )
 
     def handle(self, *args, **options):
+        """
+        :param args:
+        :param options:
+        :return:
+        """
         endpoint_names_count = options.get("count")
         if endpoint_names_count is None:
             endpoint_names_count = settings.DEFAULT_ENDPOINT_INSERTION_COUNT
@@ -23,4 +34,6 @@ class Command(BaseCommand):
                 pass
             else:
                 endpoint_names_count -= 1
-        self.stdout.write(self.style.SUCCESS(f"SUCCESS - Inserted many unique endpoint names in db."))
+        self.stdout.write(
+            self.style.SUCCESS(f"SUCCESS - Inserted many unique endpoint names in db.")
+        )

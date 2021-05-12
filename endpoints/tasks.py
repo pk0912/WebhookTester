@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from celery import shared_task
 
 from endpoints.models import Endpoint, UniqueEndpoints
@@ -7,6 +5,9 @@ from endpoints.models import Endpoint, UniqueEndpoints
 
 @shared_task()
 def delete_expired_endpoints():
+    """
+    :return:
+    """
     endpoints = Endpoint.objects.all()
     endpoints = [e for e in endpoints if e.is_expired()]
     for endpoint in endpoints:

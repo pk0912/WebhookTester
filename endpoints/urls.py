@@ -10,7 +10,6 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
-# router.register(r"endget", EndpointViewSet, basename="endpoint")
 urlpatterns = router.urls + [
     path("index/", EndpointApiView.as_view(), name="create"),
     path("<str:endpoint>/", csrf_exempt(EndpointHitApiView.as_view()), name="hit"),

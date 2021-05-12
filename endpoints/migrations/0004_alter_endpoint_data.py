@@ -6,13 +6,11 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('endpoints', '0003_alter_endpoint_data'),
+        ("endpoints", "0003_alter_endpoint_data"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='endpoint',
-            name='data',
-            field=models.JSONField(default=list),
+            model_name="endpoint", name="data", field=models.JSONField(default=list),
         ),
     ]

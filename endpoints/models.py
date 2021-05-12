@@ -8,6 +8,9 @@ class UniqueEndpoints(models.Model):
     name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
+        """
+        :return:
+        """
         return self.name
 
 
@@ -17,12 +20,21 @@ class Endpoint(models.Model):
     clicks = models.IntegerField(default=0)
 
     def __str__(self):
+        """
+        :return:
+        """
         return self.name
 
     def is_expired(self):
+        """
+        :return:
+        """
         return self.created_at + timedelta(hours=1) < timezone.now()
 
     def clicked(self):
+        """
+        :return:
+        """
         self.clicks += 1
         self.save()
 

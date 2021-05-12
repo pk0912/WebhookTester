@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('endpoints', '0006_alter_endpointhits_query_params'),
+        ("endpoints", "0006_alter_endpointhits_query_params"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='endpointhits',
-            name='query_params',
+            model_name="endpointhits",
+            name="query_params",
             field=models.JSONField(default=None, null=True),
         ),
     ]
