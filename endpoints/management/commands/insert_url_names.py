@@ -11,8 +11,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser: CommandParser) -> None:
         """
-        :param parser:
-        :return:
+        :param parser: CommandParser instance to add the runtime argument
+        :return: None
         """
         parser.add_argument(
             "--count", type=int, help="Number of endpoint names to be generated"
@@ -20,9 +20,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """
-        :param args:
-        :param options:
-        :return:
+        This method inserts unique endpoint names in the UniqueEndpoint table. The count can be customized by changing
+        the value of DEFAULT_ENDPOINT_INSERTION_COUNT in settings page or by passing a count as argument.
         """
         endpoint_names_count = options.get("count")
         if endpoint_names_count is None:

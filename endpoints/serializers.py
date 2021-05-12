@@ -12,8 +12,9 @@ class EndpointSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         """
-        :param instance:
-        :return:
+        :param instance: Instance of Endpoint class that needs to be serialized
+        :return: A python dictionary with instance name, total number of clicks
+        and its remaining time before getting expired.
         """
         if not instance.is_expired():
             expires_in = instance.created_at + timedelta(hours=1) - timezone.now()
@@ -29,8 +30,8 @@ class EndpointSerializer(serializers.ModelSerializer):
 class EndpointHitSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         """
-        :param instance:
-        :return:
+        :param instance: Instance of EndpointHit class that needs to be serialized.
+        :return: A python dictionary with the fields of EndpointHit model and the time before which the hit was made.
         """
         hit_time = timezone.now() - instance.created_at
         hit_time = hit_time.seconds
