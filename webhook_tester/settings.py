@@ -151,6 +151,6 @@ CELERY_BEAT_SCHEDULE = {
     # Executes every hour
     'delete_expired_endpoints_every_hour': {
          'task': 'endpoints.tasks.delete_expired_endpoints',
-         'schedule': 10.0,
+         'schedule': 3600.0,
         },
 }
